@@ -1,0 +1,58 @@
+using System;
+
+interface IOutput
+{
+    void Show();
+    void Show(string info);
+}
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine();
+
+        Array arr2 = new Array(15);
+        arr2.Show();
+        arr2.Show("This is my random  array:");
+    }
+}
+class Array : IOutput
+{
+    private int[] elements;
+    private Random random = new Random();
+
+    public Array(int[] elements)
+    {
+        this.elements = elements;
+    }
+
+    public Array(int size)
+    {
+        elements = new int[size];
+        FillArray();
+    }
+
+    private void FillArray()
+    {
+        for (int i = 0; i < elements.Length; i++)
+        {
+            elements[i] = random.Next(100);
+        }
+    }
+
+    public void Show()
+    {
+
+        foreach (int item in elements)
+        {
+            Console.WriteLine(item);
+        }
+    }
+
+    public void Show(string info)
+    {
+        Console.WriteLine($"Message: {info}");
+        Show();
+    }
+}
+
