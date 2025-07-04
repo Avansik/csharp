@@ -1,0 +1,72 @@
+using System;
+namespace _12_EventCallBackFunction
+
+
+{
+   
+    class Exchange
+{
+    private double rate;
+
+    public double Rate
+    {
+        get { return rate; }
+        set
+        {
+            if (value > 0)
+                rate = value;
+            else value = 0;
+        }
+    }
+    public double MinVal { get; set; }
+    public double MaxVal { get; set; }
+
+    public Exchange()
+    {
+        Rate = 0;
+        MinVal = 0;
+        MaxVal = 0;
+    }
+    public Exchange(double ec, double min, double max)
+    {
+        Rate = ec;
+        MinVal = min;
+        MaxVal = max;
+    }
+}
+class Trader
+{
+    public string Name { get; set; }
+    public double CurrencyAmmont { get; set; }
+    public Trader()
+    {
+        Name = "Traider VASYA";
+        CurrencyAmmont = 0;
+
+    }
+    public Trader(string n, int a)
+    {
+        Name = n; CurrencyAmmont = a;
+    }
+    public void MyAction(double Sate)
+    {
+        if (Sate < 20)
+        {
+            Console.WriteLine("I buy coin");
+        }
+        if (Sate > 30)
+        {
+            Console.WriteLine("I sell coin");
+        }
+       
+    }
+}
+internal class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Hello!");
+
+    }
+}
+}
