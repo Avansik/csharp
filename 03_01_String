@@ -1,0 +1,70 @@
+using System.Text;
+ 
+namespace ConsoleApp3
+
+{
+
+    internal class Program
+
+    {
+
+        static void Main(string[] args)
+
+        {
+
+            string or = "Abstract";
+
+            string gr = "Class";
+
+            int index = 7;
+
+            string newz = or.Insert(index, gr);
+
+            Console.WriteLine(newz);
+
+            /*A book or other written or printed work, regarded in Terms of its content rather than its Physical fForm.*/
+
+            string text = "A book or other written or printed work, regarded in Terms of its content rather than its Physical fForm";
+
+            int chars = text.Length;
+
+            int upper = 0;
+
+            int lower = 0;
+
+            foreach (char c in text) 
+
+            {
+
+                if (char.IsUpper(c))
+
+                {
+
+                    upper++;
+
+                }
+
+                else if (char.IsLower(c)) 
+
+                {
+
+                       lower++;
+
+                }
+
+            }
+
+            Console.WriteLine("all :", chars);
+
+            Console.WriteLine("Upper : ", upper);
+
+            Console.WriteLine("Lower : ", lower);
+ 
+ 
+        }
+
+    }
+
+}
+
+ 
