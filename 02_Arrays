@@ -82,3 +82,70 @@ namespace _02_Arrays
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Home work!
+
+
+
+namespace Actaja
+{
+    internal class Program
+    {
+        static void Main()
+        {/*
+            int[] arr = { 1, 2, 3, 4, 2, 5 };
+            int even = 0, odd = 0, unique = 0;
+            HashSet<int> seen = new HashSet<int>();
+
+            foreach (int num in arr)
+            {
+                if (num % 2 == 0) even++;
+                else odd++;
+                if (seen.Add(num)) unique++;
+            }
+
+            Console.WriteLine($"Even: {even}, Odd: {odd}, Unique: {unique}");*/
+            
+             int[] arr = { 1, 5, 3, 8, 2 };
+        Console.Write("Enter a number: ");
+        int threshold = Convert.ToInt32(Console.ReadLine());
+        int count = 0;
+
+        foreach (int num in arr)
+            if (num < threshold) count++;
+
+        Console.WriteLine($"Less than {threshold}: {count}");
+             */
+            /*
+             int[] arr = { 1, 5, 3, 8, 2 };
+        int min = arr[0];
+        foreach (int num in arr)
+            if (num < min) min = num;
+
+        int count = 0;
+        foreach (int num in arr)
+            if (num == min + 5 || num == min - 5) count++;
+
+        Console.WriteLine($"Differs from min ({min}) by 5: {count}");
+             
+        }
+    }
+}
