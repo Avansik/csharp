@@ -1,0 +1,36 @@
+namespace LOLKEKCHINAZES
+
+{
+    internal class Program
+
+    {
+        public static T MaxOfThree<T>(T a, T b, T c) where T : IComparable<T>
+        {
+            T max = a;
+            if (b.CompareTo(max) > 0)
+                max = b;
+            if (c.CompareTo(max) > 0)
+                max = c;
+            return max;
+        }
+        public static T MinOfThree<T>(T a, T b, T c) where T : IComparable<T>
+        {
+            T min = a;
+            if (b.CompareTo(min) < 0)
+                min = b;
+            if (c.CompareTo(min) < 0)
+                min = c;
+            return min;
+        }
+        static void Main(string[] args)
+        {
+            int num1 = 10, num2 = 25, num3 = 15;
+            Console.WriteLine($"max iS {num1}, {num2}, {num3} = {MaxOfThree(num1, num2, num3)}");
+            Console.WriteLine($"min iS {num1}, {num2}, {num3} = {MinOfThree(num1, num2, num3)}");
+
+        }
+
+    }
+
+}
+
