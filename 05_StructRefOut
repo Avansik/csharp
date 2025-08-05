@@ -1,1 +1,192 @@
 
+namespace ConsoleApp12
+{
+    class Worker
+    {
+        private string _workerSurname;
+        private string _workerName;
+        private int _workerAge;
+        private double _employee_salary;
+        private DateTime _date_of_employment;
+        public string WorkerSurname
+        { get { return _workerSurname; } set { _workerSurname = value; } }
+        public string WorkerName
+        { get { return _workerName; } set { _workerName = value; } }
+        public int WorkerAge
+        {
+            get { return _workerAge; }
+            set { _workerAge = value; }
+        }
+        public double EmployeeSalary
+        {
+            get { return _employee_salary; }
+            set { _employee_salary = value; }
+        }
+        public DateTime DateOfEmployment
+        {
+            get { return _date_of_employment; }
+            set
+            {
+                if (value > DateTime.Now)
+                {
+                    throw new Exception("The hiring date cannot be in the future.");
+                }
+                _date_of_employment = value;
+            }
+        }
+
+
+
+        internal class Program
+        {
+            static void Main(string[] args)
+            {
+                /*Завдання 1:
+    Описати клас з ім'ям Worker, що містить наступні поля:
+    прізвище та ініціали працівника;
+    вік працівника;
+    ЗП працівника;
+    дата прийняття на роботу.
+    Написати програму, що виконує наступні дії:
+    введення з клавіатури даних в масив, що складається з п'яти елементів типу Worker (записи повинні бути впорядковані за алфавітом);
+    якщо значення якогось параметру введено не в відповідному форматі - згенерувати відповідний exception.
+    вивід на екран прізвища працівника, стаж роботи якого перевищує введене з клавіатури значення.
+    Рекомендація: перевірку формата даних та генерацію винятку виконуйте в блоці set{} для кожної властивості класа Worker. */
+                Worker[] workers = new Worker[5];
+               
+                for (int i = 0; i < workers.Length; i++)
+                {
+                    workers[i] = new Worker();
+                    workers[i].WorkerSurname = Console.ReadLine()!;
+                    workers[i].EmployeeSalary = int.Parse(Console.ReadLine()!);
+                    workers[i].DateOfEmployment = DateTime.Parse(Console.ReadLine()!);
+                    workers[i].WorkerAge = int.Parse(Console.ReadLine()!);
+                    workers[i].WorkerName = (Console.ReadLine()!);
+                }
+                foreach (Worker worker in workers)
+                {
+                    Console.WriteLine(workers);
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+namespace ConsoleApp12
+{
+    class Worker
+    {
+        private string _workerSurname;
+        private string _workerName;
+        private int _workerAge;
+        private double _employee_salary;
+        private DateTime _date_of_employment;
+        public string WorkerSurname
+        { get { return _workerSurname; } set { _workerSurname = value; } }
+        public string WorkerName
+        { get { return _workerName; } set { _workerName = value; } }
+        public int WorkerAge
+        {
+            get { return _workerAge; }
+            set { _workerAge = value; }
+        }
+        public double EmployeeSalary
+        {
+            get { return _employee_salary; }
+            set { _employee_salary = value; }
+        }
+        public DateTime DateOfEmployment
+        {
+            get { return _date_of_employment; }
+            set
+            {
+                if (value > DateTime.Now)
+                {
+                    throw new Exception("The hiring date cannot be in the future.");
+                }
+                _date_of_employment = value;
+            }
+        }
+        public class Calculator
+        {
+            public double Add(double a, double b)
+            {
+                return a + b;
+            }
+
+            public double Sub(double a, double b)
+            {
+                return a - b;
+            }
+
+            public double Mul(double a, double b)
+            {
+                return a * b;
+            }
+
+            public double Div(double a, double b)
+            {
+                if (b == 0)
+                {
+                    throw new DivideByZeroException("Division by zero is not allowed.");
+                }
+                return a / b;
+            }
+        }
+
+
+        internal class Program
+        {
+            static void Main(string[] args)
+            {
+                /*Завдання 1:
+    Описати клас з ім'ям Worker, що містить наступні поля:
+    прізвище та ініціали працівника;
+    вік працівника;
+    ЗП працівника;
+    дата прийняття на роботу.
+    Написати програму, що виконує наступні дії:
+    введення з клавіатури даних в масив, що складається з п'яти елементів типу Worker (записи повинні бути впорядковані за алфавітом);
+    якщо значення якогось параметру введено не в відповідному форматі - згенерувати відповідний exception.
+    вивід на екран прізвища працівника, стаж роботи якого перевищує введене з клавіатури значення.
+    Рекомендація: перевірку формата даних та генерацію винятку виконуйте в блоці set{} для кожної властивості класа Worker. */
+                Worker[] workers = new Worker[5];
+
+                for (int i = 0; i < workers.Length; i++)
+                { workers[i] = new Worker();
+                    Console.Write("\nEnter workers midle name : "); workers[i].WorkerSurname = Console.ReadLine()!;
+                    Console.Write("\nEnter workers employee salary : "); workers[i].EmployeeSalary = int.Parse(Console.ReadLine()!);
+                    Console.Write("\nEnter workers date of employment : "); workers[i].DateOfEmployment = DateTime.Parse(Console.ReadLine()!);
+                    Console.Write("\nEnter workers age : "); workers[i].WorkerAge = int.Parse(Console.ReadLine()!);
+                    Console.Write("\nEnter workers name : "); workers[i].WorkerName = (Console.ReadLine()!);
+                }
+                foreach (Worker worker in workers)
+                {
+                    Console.WriteLine(workers);
+                }
+            }
+        }
+    }
+}
+
