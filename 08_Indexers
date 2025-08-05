@@ -107,4 +107,266 @@ namespace Mateamtyka
 
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+namespace ConsoleApp15
+{
+    abstract class Geometric_shape
+    {
+        public abstract void GetArea();
+        public abstract void GetPerimeter();
+    }
+    class Triangle : Geometric_shape
+    {
+        public int A { get; set; }
+        public int B { get; set; }
+        public int C { get; set; }
+        public Triangle(int a, int b, int c)
+        {
+            this.A = a; this.B = b; this.C = c;
+        }
+        public override void GetArea()
+        {
+            double p = (A + B + C) / 2.0;
+            double area = Math.Sqrt(p * (p - A) * (p - B) * (p - C));
+            Console.WriteLine($"Plosha =  {area}");
+        }
+        public override void GetPerimeter()
+        {
+            int P = A + B + C;
+            Console.WriteLine($"Perymetr =  {P}");
+        }
+    }
+    class Square : Geometric_shape
+    {
+        public int A { get; set; }
+        public Square(int a) { this.A = a; }
+        public override void GetArea()
+        {
+            int p = A * A;
+            Console.WriteLine($"Plosha =  {p}");
+        }
+        public override void GetPerimeter()
+        {
+            int P = A * 4;
+            Console.WriteLine($"Perymetr =  {P}");
+        }
+    }
+    class Diamond : Geometric_shape
+    {
+        public int A { get; set; }
+        public int H { get; set; }
+        public Diamond(int a, int h) { this.A = a; this.H = h; }
+        public override void GetArea()
+        {
+            int p = A * H;
+            Console.WriteLine($"Plosha =  {p}");
+        }
+        public override void GetPerimeter()
+        {
+            int P = A * 4;
+            Console.WriteLine($"Perymetr =  {P}");
+        }
+    }
+    class Rectangle : Geometric_shape
+    {
+        public int A { get; set; }
+        public int B { get; set; }
+        public Rectangle(int a, int b) { this.A = a; this.B = b; }
+        public override void GetArea()
+        {
+            int p = A * B;
+            Console.WriteLine($"Plosha =  {p}");
+        }
+        public override void GetPerimeter()
+        {
+            int P = 2 * (A + B);
+            Console.WriteLine($"Perymetr =  {P}");
+        }
+    }
+    class Parallelogram : Geometric_shape
+    {
+        public int A { get; set; }
+        public int H { get; set; }
+        public int B { get; set; }
+        public Parallelogram(int a, int b, int h) { this.A = a; this.B = b; this.H = h; }
+        public override void GetArea()
+        {
+            int p = A * H;
+            Console.WriteLine($"Plosha =  {p}");
+        }
+        public override void GetPerimeter()
+        {
+            int P = 2 * (A + B);
+            Console.WriteLine($"Perymetr =  {P}");
+        }
+    }
+    class Trapeze : Geometric_shape
+    {
+        public int A { get; set; }
+        public int H { get; set; }
+        public int B { get; set; }
+        public int C { get; set; }
+        public int D { get; set; }
+        public Trapeze(int a, int b, int c, int d, int h)
+        {
+            this.A = a; this.B = b; this.C = c; this.D = d; this.H = h;
+        }
+        public override void GetArea()
+        {
+            double p = ((A + B) / 2.0) * H;
+            Console.WriteLine($"Plosha =  {p}");
+        }
+        public override void GetPerimeter()
+        {
+            int P = A + B + C + D;
+            Console.WriteLine($"Perymetr =  {P}");
+        }
+    }
+    class Circle : Geometric_shape
+    {
+        public int R { get; set; }
+        public Circle(int r) { this.R = r; }
+        public override void GetArea()
+        {
+            double p = Math.PI * R * R;
+            Console.WriteLine($"Plosha =  {p}");
+        }
+        public override void GetPerimeter()
+        {
+            double P = 2 * Math.PI * R;
+            Console.WriteLine($"Perymetr =  {P}");
+        }
+    }
+    class Ellipse : Geometric_shape
+    {
+        public int A { get; set; }
+        public int B { get; set; }
+        public Ellipse(int a, int b) { this.A = a; this.B = b; }
+        public override void GetArea()
+        {
+            double p = Math.PI * A * B;
+            Console.WriteLine($"Plosha =  {p}");
+        }
+        public override void GetPerimeter()
+        {
+            double P = Math.PI * (3 * (A + B) - Math.Sqrt((3 * A + B) * (A + 3 * B)));
+            Console.WriteLine($"Perymetr =  {P}");
+        }
+    }
+    class CompositeFigure : Geometric_shape
+    {
+        private Geometric_shape[] figures;
+        public CompositeFigure(params Geometric_shape[] figures)
+        {
+            this.figures = figures;
+        }
+        public override void GetArea()
+        {
+            Console.Write("Composite Area = ");
+            double total = 0;
+            foreach (var f in figures)
+            {
+                if (f is Triangle t)
+                {
+                    double p = (t.A + t.B + t.C) / 2.0;
+                    total += Math.Sqrt(p * (p - t.A) * (p - t.B) * (p - t.C));
+                }
+                else if (f is Square s)
+                    total += s.A * s.A;
+                else if (f is Diamond d)
+                    total += d.A * d.H;
+                else if (f is Rectangle r)
+                    total += r.A * r.B;
+                else if (f is Parallelogram p)
+                    total += p.A * p.H;
+                else if (f is Trapeze tr)
+                    total += ((tr.A + tr.B) / 2.0) * tr.H;
+                else if (f is Circle c)
+                    total += Math.PI * c.R * c.R;
+                else if (f is Ellipse e)
+                    total += Math.PI * e.A * e.B;
+            }
+            Console.WriteLine(total);
+        }
+        public override void GetPerimeter()
+        {
+            Console.Write("Composite Perimeter = ");
+            double total = 0;
+            foreach (var f in figures)
+            {
+                if (f is Triangle t)
+                    total += t.A + t.B + t.C;
+                else if (f is Square s)
+                    total += 4 * s.A;
+                else if (f is Diamond d)
+                    total += 4 * d.A;
+                else if (f is Rectangle r)
+                    total += 2 * (r.A + r.B);
+                else if (f is Parallelogram p)
+                    total += 2 * (p.A + p.B);
+                else if (f is Trapeze tr)
+                    total += tr.A + tr.B + tr.C + tr.D;
+                else if (f is Circle c)
+                    total += 2 * Math.PI * c.R;
+                else if (f is Ellipse e)
+                    total += Math.PI * (3 * (e.A + e.B) - Math.Sqrt((3 * e.A + e.B) * (e.A + 3 * e.B)));
+            }
+            Console.WriteLine(total);
+        }
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            var t = new Triangle(3, 4, 5);
+            var s = new Square(4);
+            var c = new Circle(2);
+            var comp = new CompositeFigure(t, s, c);
+            t.GetArea();
+            t.GetPerimeter();
+            s.GetArea();
+            s.GetPerimeter();
+            c.GetArea();
+            c.GetPerimeter();
+            comp.GetArea();
+            comp.GetPerimeter();
+        }
+    }
+}
 }
