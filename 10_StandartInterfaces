@@ -1,0 +1,283 @@
+using System.Collections;
+
+namespace ConsoleApp17
+{
+    class Director : ICloneable
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
+        public override string ToString()
+        {
+            return $"FirstName  =  {FirstName} , LastName  =  {LastName}";
+        }
+    }
+    enum Genre
+    {
+        Comedy, Horror, Adventure, Drama
+    }
+    class Cinema : IEnumerable
+    {
+        Movie[] movies;
+        public Cinema()
+        {
+            movies = new Movie[]
+            {
+                new Movie
+                {
+                     Name = "Garry poters",
+                     Description = "movie 1",
+                     Country = "England",
+                     Director = new Director
+                     {
+                             FirstName = "Ivan",
+                             LastName = "Petrovich",
+                     },
+                     Genre = Genre.Comedy,
+                     Year = 1999,
+                     Rating = 1,
+
+                }
+            }; 
+        }
+        public IEnumerator GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+    class Movie : IComparable, ICloneable
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Director Director { get; set; }
+        public string Country { get; set; }
+        public Genre Genre { get; set; }
+        public int Year { get; set; }
+        public short Rating { get; set; }
+
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+        public override string ToString()
+        {
+            return $"Name = {Name},Description = {Description},Director = {Director},Country  = {Country},Genre = {Genre},Year = {Year},Rating = {Rating}";
+        }
+        public int CompareTo(Movie? other)
+        {
+            return Name.CompareTo(other!.Name);
+        }
+
+        public int CompareTo(object? obj)
+        {
+            return Name.CompareTo(obj);
+        }
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            /*Завдання 1:
+Створити клас «Cinema», який має колекцію фільмів та методи для їх сортування. Клас імплементує інтерфейс IEnumerable та дозволяє сортувати колекцію по різним критеріям, приймаючи в метод сортування IComparer, який описує алгоритм порівняння.
+Кожний фільм описуєтся класом «Movie», який містить параметри:
+⦁	Назва
+⦁	Опис
+⦁	Режисер - окремий клас з певними властивостями та інтерфейсом ICloneable
+⦁	Країна
+⦁	Жанр - enum
+⦁	Рік
+⦁	Рейтинг і тд. 
+Клас повинен реалізовувати інтерфейс IComparable та ICloneable.
+Для всіх класів потрібно перевизначити метод ToString(), який повертає основну інформацію про об'єкт.
+Приблизна діаграма класів наведена на наступній стор.
+ */
+
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using System.Collections;
+
+namespace ConsoleApp17
+{
+    class Director : ICloneable
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
+        public override string ToString()
+        {
+            return $"FirstName = {FirstName}, LastName = {LastName}";
+        }
+    }
+    enum Genre
+    {
+        Comedy, Horror, Adventure, Drama
+    }
+    class Movie : IComparable, ICloneable
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Director Director { get; set; }
+        public string Country { get; set; }
+        public Genre Genre { get; set; }
+        public int Year { get; set; }
+        public short Rating { get; set; }
+        public object Clone()
+        {
+            Movie cloned = (Movie)this.MemberwiseClone();
+            cloned.Director = (Director)this.Director.Clone();
+            return cloned;
+        }
+        public override string ToString()
+        {
+            return $"Name = {Name}, Description = {Description}, Director = ({Director}), Country = {Country}, Genre = {Genre}, Year = {Year}, Rating = {Rating}";
+        }
+        public int CompareTo(object? obj)
+        {
+            if (obj is Movie other)
+                return Name.CompareTo(other.Name);
+            throw new ArgumentException("Object is not a Movie");
+        }
+    }
+    class CompareByRating : IComparer
+    {
+        public int Compare(object? x, object? y)
+        {
+            Movie m1 = x as Movie;
+            Movie m2 = y as Movie;
+            return m1.Rating.CompareTo(m2.Rating);
+        }
+    }
+    class CompareByYear : IComparer
+    {
+        public int Compare(object? x, object? y)
+        {
+            Movie m1 = x as Movie;
+            Movie m2 = y as Movie;
+            return m1.Year.CompareTo(m2.Year);
+        }
+    }
+    class Cinema : IEnumerable
+    {
+        private Movie[] movies;
+        private string address;
+        public Cinema()
+        {
+            movies = new Movie[]
+            {
+                new Movie
+                {
+                    Name = "Harry Potter",
+                    Description = "Wizarding adventure",
+                    Country = "UK",
+                    Director = new Director { FirstName = "Chris", LastName = "Columbus" },
+                    Genre = Genre.Adventure,
+                    Year = 2001,
+                    Rating = 8
+                },
+                new Movie
+                {
+                    Name = "The Shining",
+                    Description = "Horror thriller",
+                    Country = "USA",
+                    Director = new Director { FirstName = "Stanley", LastName = "Kubrick" },
+                    Genre = Genre.Horror,
+                    Year = 1980,
+                    Rating = 9
+                },
+                new Movie
+                {
+                    Name = "The Mask",
+                    Description = "Funny and action movie",
+                    Country = "USA",
+                    Director = new Director { FirstName = "Chuck", LastName = "Russell" },
+                    Genre = Genre.Comedy,
+                    Year = 1994,
+                    Rating = 7
+                }
+            };
+        }
+        public void Sort()
+        {
+            Array.Sort(movies);
+        }
+        public void Sort(IComparer comparer)
+        {
+            Array.Sort(movies, comparer);
+        }
+        public IEnumerator GetEnumerator()
+        {
+            return movies.GetEnumerator();
+        }
+    }
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            /*Завдання 1:
+Створити клас «Cinema», який має колекцію фільмів та методи для їх сортування. Клас імплементує інтерфейс IEnumerable та дозволяє сортувати колекцію по різним критеріям, приймаючи в метод сортування IComparer, який описує алгоритм порівняння.
+Кожний фільм описуєтся класом «Movie», який містить параметри:
+Назва
+Опис
+Режисер - окремий клас з певними властивостями та інтерфейсом ICloneable
+Країна
+Жанр - enum
+Рік
+Рейтинг і тд. 
+Клас повинен реалізовувати інтерфейс IComparable та ICloneable.
+Для всіх класів потрібно перевизначити метод ToString(), який повертає основну інформацію про об'єкт.
+Приблизна діаграма класів наведена на наступній стор.*/
+            Cinema cinema = new Cinema();
+
+            Console.WriteLine("All movies:");
+            foreach (Movie m in cinema)
+                Console.WriteLine(m);
+            cinema.Sort();
+            Console.WriteLine("Sorted by name:");
+            foreach (Movie m in cinema)
+                Console.WriteLine(m);
+            cinema.Sort(new CompareByRating());
+            Console.WriteLine("Sorted by rating:");
+            foreach (Movie m in cinema)
+                Console.WriteLine(m);
+            cinema.Sort(new CompareByYear());
+            Console.WriteLine("Sorted by year:");
+            foreach (Movie m in cinema)
+                Console.WriteLine(m);
+        }
+    }
+}
