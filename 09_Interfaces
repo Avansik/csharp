@@ -56,3 +56,172 @@ class Array : IOutput
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+namespace ConsoleApp16
+{
+    interface IOutput
+    {
+        void Show();
+        void Show (string info);
+    }
+    interface IMath
+    {
+        float Avg();
+        bool Search(int valueToSearch);
+    }
+    interface ISort
+    {
+        void SortAsc();
+        void SortDesc();
+        void SortByParam(bool isAsc);
+    }
+
+    class Myarray : IOutput, IMath, ISort
+    {
+        private int[] _array = { 1,2,3,4,5,6,7,8,9,10};
+
+        void IOutput.Show()
+        {
+            Console.WriteLine(" info arr no parametrs ");
+        }
+        void IOutput.Show(string info)
+        {
+            Console.WriteLine(" info arr with parametrs " + info);
+        }
+        public void  Max()
+        {
+            if (_array.Length == 0)
+            {
+                Console.WriteLine("Array is empty ");
+                return;
+            }
+            int max = _array[0];
+            foreach (var item in _array)
+            {
+                if (item > max)
+                {
+                    max = item;
+                }
+            }
+            Console.WriteLine("Max value : " + max);
+        }
+        public void Min()
+        {
+            if (_array.Length == 0)
+            {
+                Console.WriteLine("Array is empty");
+                return;
+            }
+            int min = _array[0];
+            foreach (var item in _array)
+            {
+                if (item < min)
+                {
+                    min = item;
+                }
+            }
+            Console.WriteLine("Max value : " + min);
+        }
+        float IMath.Avg()
+        {
+            float sum = 0;
+            foreach (var item in _array)
+            {
+                sum += item;
+            }
+            return sum / _array.Length;
+        }
+        bool IMath.Search(int valueToSearch)
+        {
+            foreach (var item in _array)
+            {
+                if (item == valueToSearch)
+                {
+                    Console.WriteLine("Value found : " + item);
+                    return true;
+                }
+            }
+            Console.WriteLine("Value not found ");
+            return false;
+        }
+
+        public void SortAsc()
+        {
+            Array.Sort(_array);
+        }
+        public void SortDesc()
+        {
+            SortAsc();
+            Array.Reverse(_array);
+        }
+        public void SortByParam(bool isAsc)
+        {
+            if (isAsc == true)
+            {
+                SortAsc();
+            }
+            else if(isAsc == false)
+            {
+                SortDesc();
+            }
+
+        }
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            /*в перших 2 методах немає реалізації
+             */
+            Myarray myarray = new Myarray();
+            ((IOutput)myarray).Show();
+            ((IOutput)myarray).Show("Hello world");
+            myarray.Max();
+            myarray.Min();
+            Console.WriteLine("Average value : " + ((IMath)myarray).Avg());
+            ((IMath)myarray).Search(5);
+            ((IMath)myarray).Search(15);
+            ((ISort)myarray).SortAsc();
+            ((IOutput)myarray).Show("Sorted");
+            ((ISort)myarray).SortDesc();
+            ((IOutput)myarray).Show("Sorted");
+            ((ISort)myarray).SortByParam(true);
+            ((IOutput)myarray).Show("Sorted by parameter");
+            ((ISort)myarray).SortByParam(false);
+            ((IOutput)myarray).Show("Sorted by parameter");
+        }
+    }
+}
+
