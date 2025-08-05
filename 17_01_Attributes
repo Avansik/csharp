@@ -1,0 +1,313 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace ConsoleApp23
+{
+    class User
+    {
+        [Range( 1000, 9999)]
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "Name not setted")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Wrong lenght")]
+        public string Name { get; set; }
+        [Required(ErrorMessage = "Age not setted")]
+        [Range(1, 125, ErrorMessage = "Wrong age")]
+        public int Age { get; set; }
+        [EmailAddress]
+        [Required(ErrorMessage = "Email not setted")]
+        public string Email { get; set; }
+        [Required()]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "login minimum 3 characters")]
+        public string CreditCard { get; set; }
+        [Required()]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "login mustbe 3 characters")]
+        public string Login { get; set; }
+        [Required()]
+        [StringLength(50, MinimumLength = 8, ErrorMessage = "lenght CreditCard must be minimum 8 characters")]
+        public string Password { get; set; }
+        [Required]
+        [Compare(nameof(Password), ErrorMessage = "not confirm password")]
+        public string ConfirmPassword { get; set; }
+        [Phone()]
+        [RegularExpression(@"^\+38-0\d{2}-\d{3}-\d{2}-\d{2}$", ErrorMessage = "phone number minimum in the format +38-0**-***-**-**")]
+        public string Phone { get; set; }
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            /*1. Реалізувати додаток з наступним функціоналом:
+
+a)Консольне меню
+b)В якості колекції для даних використати Словник
+(Dictionary<TKey, TValue>), який реалізує CRUD
+c) Значущими елементами словника є екземпляри класу User
+2. Класс User повинен містити наступні властивості:
+a) Id - int унікальні значення в діапазоні 1000 - 9999
+b) Login - string, лише друємі символи без спец сиволів
+c) Password - string, лише друємі символи без спец сиволів,
+довжина не менше 8ми сиволів,
+d) ConfirmPassword - string, лише друємі символи без спец
+сиволів, довжина не менше 8ми сиволів,
+e) E-mail - string, валідація згідно загальних правил
+стандарту
+f) CreditCard - валідація згідно загальних правил стандарту
+g)Phone - валідація згідно українського формату +38-0**-
+***-**-**
+3. Всі властивості містять відповідні атрибути валідації, з
+перевизначиними повідомленнями, згідно яких модель після
+перевірки записується в словник . Якщо якісь властивості не
+проходять валідацію - користувач змушений ввести їх
+повторно.
+4. Після вибору відповідного пункту меню екземпляр словника
+серіалізується і зберігається у файл. (робиться резервна копія)
+5. Після вибору відповідного пунктуц меню дані з файлу
+читаються і десеріалізуються переписуючи поточний
+екземпляр.
+ */
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
+namespace ConsoleApp16
+{
+    class User
+    {
+        [Range(1000, 9999)]
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "Name not setted")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Wrong lenght")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "Age not setted")]
+        [Range(1, 125, ErrorMessage = "Wrong age")]
+        public int Age { get; set; }
+
+        [EmailAddress]
+        [Required(ErrorMessage = "Email not setted")]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "login minimum 3 characters")]
+        public string CreditCard { get; set; }
+
+        [Required]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "login mustbe 3 characters")]
+        public string Login { get; set; }
+
+        [Required]
+        [StringLength(50, MinimumLength = 8, ErrorMessage = "lenght CreditCard must be minimum 8 characters")]
+        public string Password { get; set; }
+
+        [Required]
+        [Compare(nameof(Password), ErrorMessage = "not confirm password")]
+        public string ConfirmPassword { get; set; }
+
+        [Phone]
+        [RegularExpression(@"^\+38-0\d{2}-\d{3}-\d{2}-\d{2}$", ErrorMessage = "phone number minimum in the format +38-0**-***-**-**")]
+        public string Phone { get; set; }
+    }
+
+    internal class Program
+    {
+        static Dictionary<int, User> users = new();
+        const string filePath = "users.json";
+        static void Main(string[] args)
+        {
+            /*1. Реалізувати додаток з наступним функціоналом:
+
+a)Консольне меню
+b)В якості колекції для даних використати Словник
+(Dictionary<TKey, TValue>), який реалізує CRUD
+c) Значущими елементами словника є екземпляри класу User
+2. Класс User повинен містити наступні властивості:
+a) Id - int унікальні значення в діапазоні 1000 - 9999
+b) Login - string, лише друємі символи без спец сиволів
+c) Password - string, лише друємі символи без спец сиволів,
+довжина не менше 8ми сиволів,
+d) ConfirmPassword - string, лише друємі символи без спец
+сиволів, довжина не менше 8ми сиволів,
+e) E-mail - string, валідація згідно загальних правил
+стандарту
+f) CreditCard - валідація згідно загальних правил стандарту
+g)Phone - валідація згідно українського формату +38-0**-
+***-**-**
+3. Всі властивості містять відповідні атрибути валідації, з
+перевизначиними повідомленнями, згідно яких модель після
+перевірки записується в словник . Якщо якісь властивості не
+проходять валідацію - користувач змушений ввести їх
+повторно.
+4. Після вибору відповідного пункту меню екземпляр словника
+серіалізується і зберігається у файл. (робиться резервна копія)
+5. Після вибору відповідного пунктуц меню дані з файлу
+читаються і десеріалізуються переписуючи поточний
+екземпляр.
+*/
+            static void AddUser()
+            {
+                var user = new User();
+                user.Id = GetInt("Id (1000-9999): ", 1000, 9999, id => !users.ContainsKey(id));
+                user.Name = GetValidatedInput("Name: ", user, nameof(User.Name));
+                user.Age = int.Parse(GetValidatedInput("Age: ", user, nameof(User.Age)));
+                user.Email = GetValidatedInput("Email: ", user, nameof(User.Email));
+                user.CreditCard = GetValidatedInput("CreditCard: ", user, nameof(User.CreditCard));
+                user.Login = GetValidatedInput("Login: ", user, nameof(User.Login));
+                user.Password = GetValidatedInput("Password: ", user, nameof(User.Password));
+                user.ConfirmPassword = GetValidatedInput("Confirm Password: ", user, nameof(User.ConfirmPassword));
+                user.Phone = GetValidatedInput("Phone (+38-0**-***-**-**): ", user, nameof(User.Phone));
+
+                var results = new List<ValidationResult>();
+                var context = new ValidationContext(user);
+                if (!Validator.TryValidateObject(user, context, results, true))
+                {
+                    foreach (var error in results)
+                        Console.WriteLine(error.ErrorMessage);
+                    Console.WriteLine("User not added. Try again.");
+                    return;
+                }
+                users[user.Id] = user;
+                Console.WriteLine("User added.");
+            }
+            static void ViewUsers()
+            {
+                foreach (var u in users.Values)
+                {
+                    Console.WriteLine($"Id: {u.Id}, Name: {u.Name}, Age: {u.Age}, Email: {u.Email}, Login: {u.Login}, Phone: {u.Phone}");
+                }
+            }
+            static void UpdateUser()
+            {
+                int id = GetInt("Enter User Id to update: ", 1000, 9999, id => users.ContainsKey(id));
+                if (!users.TryGetValue(id, out var user)) return;
+                Console.WriteLine("Leave blank to keep current value.");
+                user.Name = GetValidatedInput($"Name ({user.Name}): ", user, nameof(User.Name), true) ?? user.Name;
+                string ageInput = GetValidatedInput($"Age ({user.Age}): ", user, nameof(User.Age), true);
+                if (!string.IsNullOrWhiteSpace(ageInput)) user.Age = int.Parse(ageInput);
+                user.Email = GetValidatedInput($"Email ({user.Email}): ", user, nameof(User.Email), true) ?? user.Email;
+                user.CreditCard = GetValidatedInput($"CreditCard ({user.CreditCard}): ", user, nameof(User.CreditCard), true) ?? user.CreditCard;
+                user.Login = GetValidatedInput($"Login ({user.Login}): ", user, nameof(User.Login), true) ?? user.Login;
+                user.Password = GetValidatedInput($"Password: ", user, nameof(User.Password), true) ?? user.Password;
+                user.ConfirmPassword = GetValidatedInput($"Confirm Password: ", user, nameof(User.ConfirmPassword), true) ?? user.ConfirmPassword;
+                user.Phone = GetValidatedInput($"Phone ({user.Phone}): ", user, nameof(User.Phone), true) ?? user.Phone;
+                var results = new List<ValidationResult>();
+                var context = new ValidationContext(user);
+                if (!Validator.TryValidateObject(user, context, results, true))
+                {
+                    foreach (var error in results)
+                        Console.WriteLine(error.ErrorMessage);
+                    Console.WriteLine("User not updated.");
+                    return;
+                }
+                users[id] = user;
+                Console.WriteLine("User updated.");
+            }
+            static void DeleteUser()
+            {
+                int id = GetInt("Enter User Id to delete: ", 1000, 9999, id => users.ContainsKey(id));
+                if (users.Remove(id))
+                    Console.WriteLine("User deleted.");
+                else
+                    Console.WriteLine("User not found.");
+            }
+            static void SaveToFile()
+            {
+                File.WriteAllText(filePath, JsonSerializer.Serialize(users));
+                File.Copy(filePath, filePath + ".bak", true);
+                Console.WriteLine("Data saved and backup created.");
+            }
+            static void LoadFromFile()
+            {
+                if (!File.Exists(filePath))
+                {
+                    Console.WriteLine("File not found.");
+                    return;
+                }
+                users = JsonSerializer.Deserialize<Dictionary<int, User>>(File.ReadAllText(filePath)) ?? new();
+                Console.WriteLine("Data loaded.");
+            }
+            static int GetInt(string prompt, int min, int max, Func<int, bool> validator)
+            {
+                while (true)
+                {
+                    Console.Write(prompt);
+                    if (int.TryParse(Console.ReadLine(), out int value) && value >= min && value <= max && validator(value))
+                        return value;
+                    Console.WriteLine($"Enter a valid integer between {min} and {max}.");
+                }
+            }
+            static string GetValidatedInput(string prompt, User user, string propertyName, bool allowEmpty = false)
+            {
+                while (true)
+                {
+                    Console.Write(prompt);
+                    string input = Console.ReadLine();
+                    if (allowEmpty && string.IsNullOrWhiteSpace(input)) return null;
+                    var prop = typeof(User).GetProperty(propertyName);
+                    prop.SetValue(user, Convert.ChangeType(input, prop.PropertyType));
+                    var results = new List<ValidationResult>();
+                    var context = new ValidationContext(user) { MemberName = propertyName };
+                    if (Validator.TryValidateProperty(prop.GetValue(user), context, results))
+                        return input;
+                    foreach (var error in results)
+                        Console.WriteLine(error.ErrorMessage);
+                }
+            }
+            while (true)
+            {
+                Console.WriteLine("1 add User");
+                Console.WriteLine("2 view Users");
+                Console.WriteLine("3 update User");
+                Console.WriteLine("4 delete User");
+                Console.WriteLine("5 save to file");
+                Console.WriteLine("6 load from file");
+                Console.WriteLine("0 exit");
+                Console.Write("Choose : ");
+                var choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1": AddUser(); break;
+                    case "2": ViewUsers(); break;
+                    case "3": UpdateUser(); break;
+                    case "4": DeleteUser(); break;
+                    case "5": SaveToFile(); break;
+                    case "6": LoadFromFile(); break;
+                    case "0": return;
+                    default: Console.WriteLine("Invalid choice "); break;
+                }
+            }
+        }
+    }
+}
+
