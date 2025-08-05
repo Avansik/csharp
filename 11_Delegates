@@ -1,1 +1,211 @@
 
+namespace ConsoleApp18
+{
+    class Operation
+    {
+        public int Negative(int[]arr)
+        {
+              int count = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] < 0)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+        public int Sum(int[] arr)
+        {
+            return arr.Sum();
+        }
+        public int CountPrime(int[] arr)
+        {
+            int countPrime = 0;
+            int countSimple = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+
+                for (int a = 2; a <= arr[i] / 2; a++)
+                {
+                    if (arr[i] % a == 0)
+                    {
+                        countPrime++;
+                    }
+
+                }
+            }countSimple = arr.Length - countPrime;
+            return countSimple;
+        }
+    }
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            /*Написати програму для виконання операцій з одновимірним масивом за допомогою делегатів.
+             * Користувачу надається наступне меню для вибору типа операції з масивом:
+обчислення значення
+зміна масиву
+Якщо користувач вибрав 1-й тип, вивести підменю вибору операції:
+Обчислити кількість негативних елементів
+Визначити суму всіх елементів
+*Обрахувати кількість простих чисел
+2-й тип:
+Змінити всі негативні елементи на 0
+Відсортувати масив
+*Перемістити всі парні елементи на початку, відповідно не парні будуть в кінці.
+Створити вказані вище методи та реалізувати вибір користувачем операції на виконання без використання конструкцій if, switch та ?:(тернарного) оператора. 
+Методи першого типу повинні повертати результат обчислення, в той час методи другого типу – void.
+Реалізувати валідацію вибраного номера операції.
+ */
+            int arra[] = new int { 1, 2, 3, 4, 5, 6, 7 };
+
+
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+namespace ConsoleApp18
+{
+    class Operation
+    {
+        public int Negative(int[] arr)
+        {
+            int count = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] < 0)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+        public int Sum(int[] arr)
+        {
+            return arr.Sum();
+        }
+        public int CountPrime(int[] arr)
+        {
+            int countPrime = 0;
+            int countSimple = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+
+                for (int a = 2; a <= arr[i] / 2; a++)
+                {
+                    if (arr[i] % a == 0)
+                    {
+                        countPrime++;
+                    }
+
+                }
+            }
+            countSimple = arr.Length - countPrime;
+            return countSimple;
+        }
+        public bool IsPrime(int n)
+        {
+            if (n < 2) return false;
+            for (int i = 2; i <= Math.Sqrt(n); i++)
+                if (n % i == 0) return false;
+            return true;
+        }
+        public void ReplaceNegatives(int[] arr)
+        {
+            for (int i = 0; i < arr.Length; i++)
+                arr[i] = arr[i] < 0 ? 0 : arr[i];
+        }
+        public void Sort(int[] arr)
+        {
+            Array.Sort(arr);
+        }
+        
+    }
+
+    internal class Program
+    {
+        /*Тема: Delegates
+Завдання:
+Написати програму для виконання операцій з одновимірним масивом за допомогою делегатів. Користувачу надається наступне меню для вибору типа операції з масивом:
+1.обчислення значення
+2.зміна масиву
+Якщо користувач вибрав 1-й тип, вивести підменю вибору операції:
+i.Обчислити кількість негативних елементів
+ii.Визначити суму всіх елементів
+iii.*Обрахувати кількість простих чисел
+2-й тип:
+i.Змінити всі негативні елементи на 0
+ii.Відсортувати масив
+iii.*Перемістити всі парні елементи на початку, відповідно не парні будуть в кінці.
+Створити вказані вище методи та реалізувати вибір користувачем операції на виконання без використання конструкцій if, switch та ?:(тернарного) оператора. 
+Методи першого типу повинні повертати результат обчислення, в той час методи другого типу – void.
+Реалізувати валідацію вибраного номера операції.*/
+        delegate int ArrayCalc(int[] arr);
+        delegate void ArrayAction(int[] arr);
+        static void Main(string[] args)
+        {
+            Operation op = new Operation();
+
+            ArrayCalc[] calcOps = { op.Negative, op.Sum, op.CountPrime };
+            ArrayAction[] actionOps = { op.ReplaceNegatives, op.Sort };
+            int[] arr = { 1, 2, -3, 4, -5, 6, 7, -8, 9, 10 };
+            Console.WriteLine("Виберіть тип операції з масивом:\n1. Обчислення значення\n2. Зміна масиву");
+            int operationType = int.Parse(Console.ReadLine()!);
+            if (operationType == 1)
+            {
+                Console.WriteLine("Виберіть операцію:\n1. Кількість негативних елементів\n2. Сума всіх елементів\n3. Кількість простих чисел");
+                int operation = int.Parse(Console.ReadLine()!);
+                if (operation >= 1 && operation <= calcOps.Length)
+                {
+                    int result = calcOps[operation - 1](arr);
+                    Console.WriteLine($"Результат: {result}");
+                }
+                else
+                {
+                    Console.WriteLine("Невірний вибір операції");
+                }
+            }
+            else if (operationType == 2)
+            {
+                Console.WriteLine("Виберіть операцію:\n1. Змінити всі негативні елементи на 0\n2. Відсортувати масив");
+                int operation = int.Parse(Console.ReadLine()!);
+                if (operation >= 1 && operation <= actionOps.Length)
+                {
+                    actionOps[operation - 1](arr);
+                    Console.WriteLine("Масив після операції: " + string.Join(", ", arr));
+                }
+                else
+                {
+                    Console.WriteLine("Невірний вибір операції");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Невірний вибір типу операції");
+            }
+        }
+    }
+}
