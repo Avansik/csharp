@@ -67,4 +67,94 @@ namespace ConsoleApp3
 
 }
 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+namespace ConsoleApp11
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            /*Task 1:
+Вставити в задану позицію рядка інший рядок.*/
+            //insert
+            //string str1 = "hello world";
+            //string str2 = "dmitro";
+            //string str3 =str1.Insert(6,str2);
+            //Console.WriteLine(str3);
+            /*Task 2:
+            Визначити, чи є рядок паліндромом. Паліндром – це число, слово або фраза, яка однаково читається в обох напрямках.*/
+            //string str4 = "misah";
+            //char[] str5 = str4.ToCharArray();
+            //string reverse = "";
+            //for (int i = str5.Length-1; i >= 0; i--)
+            //{
+            //    reverse += str5[i];
+            //}
+            //Console.WriteLine(reverse);
+            /*Task 3:
+            Дано текст. Визначте відсоткове відношення малих і великих літер до загальної кількості символів в ньому.*/
+            //string str7 = "Hello World!";
+            //int lowerCount = 0;
+            //int upperCount = 0;
+            //foreach (char c in str7)
+            //{
+            //    if (char.IsLower(c))
+            //        lowerCount++;
+            //    else if (char.IsUpper(c))
+            //        upperCount++;
+            //}
+            //double totalCount = lowerCount + upperCount;
+            //double lowerPercentage = (lowerCount / totalCount) * 100;
+            //double upperPercentage = (upperCount / totalCount) * 100;
+            //Console.WriteLine($"Lowercase letters: {lowerPercentage}%");
+            //Console.WriteLine($"Uppercase letters: {upperPercentage}%");
+            /*Task 4:
+Дано масив слів. Замінити останні три символи слів, що мають обрану довжину, на символ "$".*/
+            string[] charArray = { "Hello world","red","cat","yellow", "yellow", "yellow" };
+            Console.WriteLine("Enter lenght of words ");
+            int lenght = int.Parse(Console.ReadLine()!);
+            for (int i= 0;i<charArray.Length;i++)
+            {
+                if (charArray[i].Length == lenght)
+                {
+                    charArray[i] = charArray[i].Substring(0,lenght-3);
+                    charArray[i] += '$';
+                    
+                }
+            }
+            foreach (string i in charArray)
+            {
+                Console.WriteLine(i);
+            }
+        }
+    }
+}
+
