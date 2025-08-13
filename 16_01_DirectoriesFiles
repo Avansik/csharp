@@ -1,0 +1,139 @@
+using System.Text;
+
+namespace LOL
+{
+    internal class Program
+    {
+        // Task 1
+        static void ViewFileContent()
+        {
+            Console.Write("Enter full file path: ");
+            string path = Console.ReadLine();
+
+            FileInfo file = new FileInfo(path);
+
+            if (file.Exists)
+            {
+                string content = ReadFile(file);
+                Console.WriteLine("\nFile content:");
+                Console.WriteLine(content);
+            }
+            else
+            {
+                Console.WriteLine("\nFile does not exist.");
+            }
+            Console.WriteLine("\nPress any key...");
+            Console.ReadKey();
+        }
+
+        // Task 2
+        static void SaveArrayToFile()
+        {
+            Console.Write("How many elements in the array? ");
+            int n = int.Parse(Console.ReadLine());
+
+            int[] array = new int[n];
+            for (int i = 0; i < n; i++)
+            {
+                Console.Write($"Element [{i}]: ");
+                array[i] = int.Parse(Console.ReadLine());
+            }
+
+            Console.Write("Enter full path to save the file: ");
+            string path = Console.ReadLine();
+            FileInfo file = new FileInfo(path);
+
+            using (FileStream fs = file.Open(FileMode.Create, FileAccess.Write))
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (var num in array)
+                {
+                    sb.Append(num + " ");
+                }
+                byte[] bytes = Encoding.Default.GetBytes(sb.ToString());
+                fs.Write(bytes, 0, bytes.Length);
+            }
+
+            Console.WriteLine("\nArray saved to file.");
+            Console.WriteLine("\nPress any key...");
+            Console.ReadKey();
+        }
+
+        // Task 3
+        static void LoadArrayFromFile()
+        {
+            Console.Write("Enter full file path with array: ");
+            string path = Console.ReadLine();
+            FileInfo file = new FileInfo(path);
+
+            if (file.Exists)
+            {
+                string content = ReadFile(file);
+                Console.WriteLine("\nFile content:");
+                Console.WriteLine(content);
+
+                string[] numbers = content.Split(new[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                int[] array = Array.ConvertAll(numbers, int.Parse);
+
+                Console.WriteLine("\nLoaded array:");
+                foreach (var num in array)
+                {
+                    Console.Write(num + " ");
+                }
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine("\nFile does not exist.");
+            }
+
+            Console.WriteLine("\nPress any key...");
+            Console.ReadKey();
+        }
+
+        static string ReadFile(FileInfo f)
+        {
+            using (FileStream fs = f.OpenRead())
+            {
+                byte[] readBytes = new byte[fs.Length];
+                fs.Read(readBytes, 0, readBytes.Length);
+                return Encoding.Default.GetString(readBytes);
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            Console.OutputEncoding = Encoding.UTF8;
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("Menu:");
+                Console.WriteLine("1. View file content");
+                Console.WriteLine("2. Save array to file");
+                Console.WriteLine("3. Load array from file");
+                Console.WriteLine("0. Exit");
+                Console.Write("Enter task number: ");
+
+                string choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1":
+                        ViewFileContent();
+                        break;
+                    case "2":
+                        SaveArrayToFile();
+                        break;
+                    case "3":
+                        LoadArrayFromFile();
+                        break;
+                    case "0":
+                        return;
+                    default:
+                        Console.WriteLine("Invalid choice. Press any key...");
+                        Console.ReadKey();
+                        break;
+                }
+            }
+        }
+    }
+}
