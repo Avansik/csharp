@@ -1,0 +1,237 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
+ 
+namespace lol
+{
+    
+    [Serializable]
+    public class Record
+    {
+        public string Word { get; set; }
+        public List<string> Translations { get; set; }
+ 
+        public Record()
+        {
+            Translations = new List<string>();
+        }
+    }
+ 
+   
+    [Serializable]
+    public class DictionaryItem
+    {
+        public string Title { get; set; }
+        public string Direction { get; set; }
+        public List<Record> Records { get; set; }
+ 
+        public DictionaryItem()
+        {
+            Records = new List<Record>();
+        }
+    }
+ 
+  
+    public static class DictionaryStorage
+    {
+        private static readonly string Folder = "Dictionaries";
+ 
+        static DictionaryStorage()
+        {
+            if (!Directory.Exists(Folder))
+                Directory.CreateDirectory(Folder);
+        }
+ 
+        public static void Save(DictionaryItem item)
+        {
+            var serializer = new XmlSerializer(typeof(DictionaryItem));
+            using (var fs = new FileStream(Path.Combine(Folder, item.Title + ".xml"), FileMode.Create))
+            {
+                serializer.Serialize(fs, item);
+            }
+        }
+ 
+        public static DictionaryItem Load(string name)
+        {
+            var path = Path.Combine(Folder, name + ".xml");
+            if (!File.Exists(path)) return null;
+ 
+            var serializer = new XmlSerializer(typeof(DictionaryItem));
+            using (var fs = new FileStream(path, FileMode.Open))
+            {
+                return (DictionaryItem)serializer.Deserialize(fs);
+            }
+        }
+ 
+        public static void Delete(string name)
+        {
+            var path = Path.Combine(Folder, name + ".xml");
+            if (File.Exists(path))
+                File.Delete(path);
+        }
+ 
+        public static List<string> GetAll()
+        {
+            var files = Directory.GetFiles(Folder, "*.xml");
+            var list = new List<string>();
+            foreach (var f in files)
+                list.Add(Path.GetFileNameWithoutExtension(f));
+            return list;
+        }
+    }
+ 
+   
+    public class DictionaryApp
+    {
+        private DictionaryItem current;
+ 
+        public void Run()
+        {
+            int choice;
+            do
+            {
+                Console.WriteLine("=== HELLO ===");
+                Console.WriteLine("1. Create new dictionary");
+                Console.WriteLine("2. Add word and translation");
+                Console.WriteLine("3. Replace translations for word");
+                Console.WriteLine("4. Delete word");
+                Console.WriteLine("5. Search word");
+                Console.WriteLine("6. Show all dictionaries");
+                Console.WriteLine("7. Delete dictionary");
+                Console.WriteLine("0. Exit");
+                Console.Write("Choose: ");
+                int.TryParse(Console.ReadLine(), out choice);
+ 
+                switch (choice)
+                {
+                    case 1: CreateDictionary(); break;
+                    case 2: AddWord(); break;
+                    case 3: ReplaceTranslations(); break;
+                    case 4: DeleteWord(); break;
+                    case 5: SearchWord(); break;
+                    case 6: ShowAll(); break;
+                    case 7: DeleteDictionary(); break;
+                }
+ 
+            } while (choice != 0);
+        }
+ 
+        private void CreateDictionary()
+        {
+            Console.Write("Dictionary name: ");
+            string name = Console.ReadLine();
+ 
+            Console.Write("Dictionary type: ");
+            string type = Console.ReadLine();
+ 
+            current = new DictionaryItem { Title = name, Direction = type };
+            DictionaryStorage.Save(current);
+ 
+            Console.WriteLine("Dictionary created.\n");
+        }
+ 
+        private void AddWord()
+        {
+            if (current == null)
+            {
+                Console.WriteLine("No dictionary loaded.\n");
+                return;
+            }
+ 
+            Console.Write("Word: ");
+            string word = Console.ReadLine();
+ 
+            Console.Write("Translation(s) : ");
+            string[] tr = Console.ReadLine().Split(',');
+ 
+            current.Records.Add(new Record
+            {
+                Word = word,
+                Translations = new List<string>(tr)
+            });
+ 
+            DictionaryStorage.Save(current);
+            Console.WriteLine("Word added.\n");
+        }
+ 
+        private void ReplaceTranslations()
+        {
+            if (current == null) return;
+ 
+            Console.Write("Word: ");
+            string word = Console.ReadLine();
+ 
+            var record = current.Records.Find(r => r.Word == word);
+            if (record == null)
+            {
+                Console.WriteLine("Word not found.\n");
+                return;
+            }
+ 
+            Console.Write("New translations: ");
+            string[] tr = Console.ReadLine().Split(',');
+            record.Translations = new List<string>(tr);
+ 
+            DictionaryStorage.Save(current);
+            Console.WriteLine("Translations replaced.\n");
+        }
+ 
+        private void DeleteWord()
+        {
+            if (current == null) return;
+ 
+            Console.Write("Word: ");
+            string word = Console.ReadLine();
+ 
+            current.Records.RemoveAll(r => r.Word == word);
+ 
+            DictionaryStorage.Save(current);
+            Console.WriteLine("Word deleted.\n");
+        }
+ 
+        private void SearchWord()
+        {
+            if (current == null) return;
+ 
+            Console.Write("Word: ");
+            string word = Console.ReadLine();
+ 
+            var record = current.Records.Find(r => r.Word == word);
+            if (record != null)
+            {
+                Console.WriteLine($"{record.Word} -> {string.Join(", ", record.Translations)}\n");
+            }
+            else
+            {
+                Console.WriteLine("Not found.\n");
+            }
+        }
+ 
+        private void ShowAll()
+        {
+            var list = DictionaryStorage.GetAll();
+            Console.WriteLine("Dictionaries:");
+            foreach (var l in list)
+                Console.WriteLine(" - " + l);
+            Console.WriteLine();
+        }
+ 
+        private void DeleteDictionary()
+        {
+            Console.Write("Dictionary name: ");
+            string name = Console.ReadLine();
+ 
+            DictionaryStorage.Delete(name);
+            Console.WriteLine("Dictionary deleted.\n");
+        }
+    }
+ 
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            new DictionaryApp().Run();
+        }
+    }
+}
